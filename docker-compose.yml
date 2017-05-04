@@ -1,0 +1,59 @@
+version: '2'
+
+services:
+
+  elasticsearch:
+    build: elasticsearch/
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+      xpack.security.enabled: "false"
+      xpack.monitoring.enabled: "false"
+      xpack.graph.enabled: "false"
+      xpack.watcher.enabled: "false"
+    volumes:
+      - .data/data-es:/usr/share/elasticsearch/data
+      - ./elasticsearch/config:/usr/share/elasticsearch/config
+    networks:
+      - elk
+
+#  logstash:
+#    build: logstash/
+#    volumes:
+#      - ./logstash/pipeline:/usr/share/logstash/pipeline
+#    ports:
+#      - "5000:5000"
+#    environment:
+#      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+#    networks:
+#      - elk
+#    depends_on:
+#      - elasticsearch
+
+  kibana:
+    build: kibana/
+    ports:
+      - "5601:5601"
+    networks:
+      - elk
+    volumes:
+      - ./kibana/config/:/usr/share/kibana/config
+    depends_on:
+      - elasticsearch
+
+  cerebro:
+    image: yannart/cerebro
+#    build: cerebro/
+#    volumes:
+    ports:
+      - "9000:9000"
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+
+networks:
+  elk:
+    driver: bridge
