@@ -5,10 +5,10 @@ services:
   elasticsearch:
     build: elasticsearch/
     ports:
-      - "9200:9200"
+      - "9210:9200"
       - "9300:9300"
     environment:
-      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+      ES_JAVA_OPTS: "-Xmx1024m -Xms1024m"
       xpack.security.enabled: "false"
       xpack.monitoring.enabled: "false"
       xpack.graph.enabled: "false"
@@ -32,16 +32,16 @@ services:
 #    depends_on:
 #      - elasticsearch
 
-  kibana:
-    build: kibana/
-    ports:
-      - "5601:5601"
-    networks:
-      - elk
-    volumes:
-      - ./kibana/config/:/usr/share/kibana/config
-    depends_on:
-      - elasticsearch
+#  kibana:
+#    build: kibana/
+#    ports:
+#      - "5601:5601"
+#    networks:
+#      - elk
+#    volumes:
+#      - ./kibana/config/:/usr/share/kibana/config
+#    depends_on:
+#      - elasticsearch
 
   cerebro:
     image: yannart/cerebro

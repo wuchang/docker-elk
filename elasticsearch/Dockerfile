@@ -11,4 +11,6 @@ RUN mkdir /usr/share/elasticsearch/plugins/ik \
     && unzip -o /tmp/ik.zip -d /usr/share/elasticsearch/plugins/ik \
     && rm /tmp/ik.zip \
     && bin/elasticsearch-plugin install analysis-smartcn \
-    && bin/elasticsearch-plugin install analysis-icu
+    && bin/elasticsearch-plugin install analysis-icu  
+RUN bin/elasticsearch-plugin install x-pack
+
